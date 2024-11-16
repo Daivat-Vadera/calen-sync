@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mongodb"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+// Define the Event model
+model Event {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  description       String?
+  durationInMinutes Int
+  clerkUserId       String
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+// Define the Schedule model
+model Schedule {
+  id             String                 @id @default(auto()) @map("_id") @db.ObjectId
+  timezone       String
+  clerkUserId    String
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  availabilities ScheduleAvailability[]
+}
+
+// Define the ScheduleAvailability model
+model ScheduleAvailability {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  scheduleId String   @db.ObjectId
+  startTime  String
+  endTime    String
+  dayOfWeek  String
+  Schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+}
+
+// Custom Enum replacement for dayOfWeek
+// Add validation for `dayOfWeek` field to restrict values to days of the week
+enum DayOfWeek {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
