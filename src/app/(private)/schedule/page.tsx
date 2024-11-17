@@ -6,7 +6,7 @@ import { auth } from "@clerk/nextjs/server";
 export const revalidate = 0;
 
 const SchedulePage = async () => {
-  const { userId, redirectToSignIn } = auth();
+  const { userId, redirectToSignIn } = await auth();
   if (userId == null) return redirectToSignIn();
 
   let schedule = await db.schedule.findFirst({

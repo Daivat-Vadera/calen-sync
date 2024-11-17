@@ -32,7 +32,7 @@ const BookEventPage = async ({
 }) => {
   const event = await getEvent(clerkUserId, eventId);
   if (event === null) return notFound();
-  const calendarUser = await clerkClient().users.getUser(clerkUserId);
+  const calendarUser = await (await clerkClient()).users.getUser(clerkUserId);
   const startDate = roundToNearestMinutes(new Date(), {
     nearestTo: 15,
     roundingMethod: "ceil",

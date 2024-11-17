@@ -22,7 +22,7 @@ const BookingPage = async ({
 
   if (events.length == 0) return notFound();
 
-  const { fullName } = await clerkClient().users.getUser(clerkUserId);
+  const { fullName } = await (await clerkClient()).users.getUser(clerkUserId);
 
   return (
     <div className="max-w-5xl mx-auto">

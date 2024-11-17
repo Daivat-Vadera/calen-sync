@@ -147,7 +147,7 @@ const ScheduleForm = ({
                 </Button>
                 {groupedAvailabilityFields[dayOfWeek]?.map(
                   (field, labelIndex) => (
-                    <div className="flex flex-col gap-1">
+                    <div key={field.id} className="flex flex-col gap-1">
                       <div className="flex gap-2 items-center">
                         <FormField
                           control={form.control}
