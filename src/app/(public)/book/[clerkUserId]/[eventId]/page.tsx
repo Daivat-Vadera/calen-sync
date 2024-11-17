@@ -22,14 +22,21 @@ import { notFound } from "next/navigation";
 
 export const revalidate = 0;
 
-const BookEventPage = async ({
-  params: { clerkUserId, eventId },
-}: {
-  params: {
-    clerkUserId: string;
-    eventId: string;
-  };
-}) => {
+const BookEventPage = async (
+  props: {
+    params: Promise<{
+      clerkUserId: string;
+      eventId: string;
+    }>;
+  }
+) => {
+  const params = await props.params;
+
+  const {
+    clerkUserId,
+    eventId
+  } = params;
+
   const event = await getEvent(clerkUserId, eventId);
   if (event === null) return notFound();
   const calendarUser = await (await clerkClient()).users.getUser(clerkUserId);

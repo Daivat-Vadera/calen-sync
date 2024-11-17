@@ -12,13 +12,25 @@ import { notFound } from "next/navigation";
 
 export const revalidate = 0;
 
-export default async function SuccessPage({
-  params: { clerkUserId, eventId },
-  searchParams: { start },
-}: {
-  params: { clerkUserId: string; eventId: string };
-  searchParams: { start: string };
-}) {
+export default async function SuccessPage(
+  props: {
+    params: Promise<{ clerkUserId: string; eventId: string }>;
+    searchParams: Promise<{ start: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
+
+  const {
+    start
+  } = searchParams;
+
+  const params = await props.params;
+
+  const {
+    clerkUserId,
+    eventId
+  } = params;
+
   const event = await db.event.findFirst({
     where: {
       id: eventId,
@@ -29,8 +41,8 @@ export default async function SuccessPage({
 
   if (event == null) notFound();
 
-  const calendarUser = await clerkClient().users.getUser(clerkUserId);
-  const startTimeDate = new Date(start);
+  const calendarUser = await(await clerkClient()).users.getUser(clerkUserId);
+  const startTimeDate = new Date(decodeURIComponent(start));
 
   return (
     <Card className="max-w-xl mx-auto">
