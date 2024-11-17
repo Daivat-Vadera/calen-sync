@@ -9,7 +9,7 @@ import { z } from "zod";
 export async function createEvent(
   unsafeData: z.infer<typeof eventFormSchema>
 ): Promise<{ error: string } | undefined> {
-  const { userId } = auth();
+  const { userId } = await auth();
   const { success, data } = eventFormSchema.safeParse(unsafeData);
   if (!success || userId === null) {
     return {
@@ -30,7 +30,7 @@ export async function updateEvent(
   id: string,
   unsafeData: z.infer<typeof eventFormSchema>
 ): Promise<{ error: string } | undefined> {
-  const { userId } = auth();
+  const { userId } = await auth();
   const { success, data } = eventFormSchema.safeParse(unsafeData);
   if (!success || userId === null) {
     return {
@@ -53,7 +53,7 @@ export async function updateEvent(
 export async function deleteEvent(
   id: string
 ): Promise<{ error: string } | undefined> {
-  const { userId } = auth();
+  const { userId } = await auth();
   if (userId === null) {
     return {
       error: "User is not logged in",

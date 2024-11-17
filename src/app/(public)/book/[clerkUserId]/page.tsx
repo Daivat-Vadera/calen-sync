@@ -5,11 +5,17 @@ import { notFound } from "next/navigation";
 
 export const revalidate = 0;
 
-const BookingPage = async ({
-  params: { clerkUserId },
-}: {
-  params: { clerkUserId: string };
-}) => {
+const BookingPage = async (
+  props: {
+    params: Promise<{ clerkUserId: string }>;
+  }
+) => {
+  const params = await props.params;
+
+  const {
+    clerkUserId
+  } = params;
+
   const events = await db.event.findMany({
     where: {
       clerkUserId: clerkUserId,
@@ -22,7 +28,7 @@ const BookingPage = async ({
 
   if (events.length == 0) return notFound();
 
-  const { fullName } = await clerkClient().users.getUser(clerkUserId);
+  const { fullName } = await (await clerkClient()).users.getUser(clerkUserId);
 
   return (
     <div className="max-w-5xl mx-auto">

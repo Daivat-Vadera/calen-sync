@@ -2,8 +2,8 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-function AuthLayout({ children }: { children: ReactNode }) {
-  const { userId } = auth();
+async function AuthLayout({ children }: { children: ReactNode }) {
+  const { userId } = await auth();
   if (userId != null) redirect("/");
 
   return (

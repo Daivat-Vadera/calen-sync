@@ -45,6 +45,6 @@ export async function createMeeting(
     eventName: event.name,
   });
   redirect(
-    `/book/${data.clerkUserId}/${data.eventId}/success?start=${data.startTime}`
+    `/book/${data.clerkUserId}/${data.eventId}/success?start=${encodeURIComponent(data.startTime.toISOString())}`
   );
 }

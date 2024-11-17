@@ -8,7 +8,7 @@ import { z } from "zod";
 export async function saveSchedule(
   unsafeData: z.infer<typeof scheduleFormSchema>
 ) {
-  const { userId } = auth();
+  const { userId } = await auth();
   const { success, data } = scheduleFormSchema.safeParse(unsafeData);
   if (!success || userId === null) {
     return {

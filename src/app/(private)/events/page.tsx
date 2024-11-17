@@ -8,7 +8,7 @@ import Link from "next/link";
 import React from "react";
 export const revalidate = 0;
 async function Page() {
-  const { userId, redirectToSignIn } = auth();
+  const { userId, redirectToSignIn } = await auth();
   if (userId == null) return redirectToSignIn();
   const events = await db.event.findMany({
     where: {

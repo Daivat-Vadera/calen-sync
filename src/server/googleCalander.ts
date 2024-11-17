@@ -44,7 +44,6 @@ export async function getCalendarTimes(
   );
 }
 
-
 export async function createCalendarEvent({
   clerkUserId,
   guestName,
@@ -54,18 +53,18 @@ export async function createCalendarEvent({
   durationInMinutes,
   eventName,
 }: {
-  clerkUserId: string
-  guestName: string
-  guestEmail: string
-  startTime: Date
-  guestNotes?: string | null
-  durationInMinutes: number
-  eventName: string
+  clerkUserId: string;
+  guestName: string;
+  guestEmail: string;
+  startTime: Date;
+  guestNotes?: string | null;
+  durationInMinutes: number;
+  eventName: string;
 }) {
-  const oAuthClient = await getOAuthClient(clerkUserId)
-  const calendarUser = await clerkClient().users.getUser(clerkUserId)
+  const oAuthClient = await getOAuthClient(clerkUserId);
+  const calendarUser = await (await clerkClient()).users.getUser(clerkUserId);
   if (calendarUser.primaryEmailAddress == null) {
-    throw new Error("Clerk user has no email")
+    throw new Error("Clerk user has no email");
   }
 
   const calendarEvent = await google.calendar("v3").events.insert({
@@ -90,17 +89,15 @@ export async function createCalendarEvent({
       },
       summary: `${guestName} + ${calendarUser.fullName}: ${eventName}`,
     },
-  })
+  });
 
-  return calendarEvent.data
+  return calendarEvent.data;
 }
 
-
 async function getOAuthClient(clerkUserID: string) {
-  const token = await clerkClient().users.getUserOauthAccessToken(
-    clerkUserID,
-    "oauth_google"
-  );
+  const token = await (
+    await clerkClient()
+  ).users.getUserOauthAccessToken(clerkUserID, "oauth_google");
   if (token.data.length === 0 || token.data[0].token == null) {
     return;
   }

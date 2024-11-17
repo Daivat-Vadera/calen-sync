@@ -4,12 +4,18 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 export const revalidate = 0;
-const EditEventPage = async ({
-  params: { eventId },
-}: {
-  params: { eventId: string };
-}) => {
-  const { userId, redirectToSignIn } = auth();
+const EditEventPage = async (
+  props: {
+    params: Promise<{ eventId: string }>;
+  }
+) => {
+  const params = await props.params;
+
+  const {
+    eventId
+  } = params;
+
+  const { userId, redirectToSignIn } = await auth();
 
   if (userId == null) return redirectToSignIn();
 
