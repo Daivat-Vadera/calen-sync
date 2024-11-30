@@ -49,6 +49,9 @@ const MeetingForm = ({
     resolver: zodResolver(meetingFormSchema),
     defaultValues: {
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      guestEmail: "",
+      guestName: "",
+      guestNotes: "",
     },
   });
 

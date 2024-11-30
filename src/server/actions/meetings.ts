@@ -7,11 +7,14 @@ import { z } from "zod";
 import { createCalendarEvent } from "../googleCalander";
 import { redirect } from "next/navigation";
 import { fromZonedTime } from "date-fns-tz";
+import sendEmail from "@/helpers/sendEmail";
+import { clerkClient } from "@clerk/nextjs/server";
 
 export async function createMeeting(
   unsafeData: z.infer<typeof meetingActionSchema>
 ) {
   const { success, data } = meetingActionSchema.safeParse(unsafeData);
+  
   if (!success === null || data == undefined) {
     return {
       error: "Either user is not login or Data is not correct",
@@ -31,6 +34,7 @@ export async function createMeeting(
       error: "Event not found",
     };
   }
+  const calendarUser = await (await clerkClient()).users.getUser(event.clerkUserId);
   const startInTimezone = fromZonedTime(data.startTime, data.timezone);
   const validTimes = await getValidTimesFromSchedule([startInTimezone], event);
   if (validTimes.length === 0) {
@@ -38,13 +42,31 @@ export async function createMeeting(
       error: "No valid times found",
     };
   }
-  await createCalendarEvent({
+  const result=await createCalendarEvent({
     ...data,
     startTime: startInTimezone,
     durationInMinutes: event.durationInMinutes,
     eventName: event.name,
   });
+  if(result.hangoutLink != null && result.htmlLink != null){
+    await sendEmail({
+      email : calendarUser?.primaryEmailAddress?.emailAddress,
+      username : calendarUser?.fullName,
+      eventTitle : event.name,
+      eventDate : data.startTime.toLocaleDateString(),
+      eventTime : data.startTime.toLocaleTimeString(),
+      eventDuration : `${event.durationInMinutes}`,
+      eventLink : result?.hangoutLink,
+      userEventLink: result?.htmlLink,
+      appName : "CalenSync",
+      inviteeName : data.guestName,
+      inviteeEmail : data.guestEmail
+    });
+  }
+    
   redirect(
-    `/book/${data.clerkUserId}/${data.eventId}/success?start=${encodeURIComponent(data.startTime.toISOString())}`
+    `/book/${data.clerkUserId}/${
+      data.eventId
+    }/success?start=${encodeURIComponent(data.startTime.toISOString())}`
   );
 }
