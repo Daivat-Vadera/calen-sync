@@ -1,5 +1,6 @@
 import EventCard from "@/components/EventCard";
 import { Button } from "@/components/ui/button";
+import { generateGoogleCalendarLink } from "@/emailTemplates/InviteeConfirmationEmail";
 import { db } from "@/lib/db";
 import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";

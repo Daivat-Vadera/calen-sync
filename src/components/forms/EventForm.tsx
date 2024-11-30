@@ -47,6 +47,8 @@ const EventForm = ({
     defaultValues: event ?? {
       isActive: true,
       durationInMinutes: 30,
+      name: "",
+      description: "",
     },
   });
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {

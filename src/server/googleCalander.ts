@@ -69,6 +69,7 @@ export async function createCalendarEvent({
 
   const calendarEvent = await google.calendar("v3").events.insert({
     calendarId: "primary",
+    conferenceDataVersion: 1,
     auth: oAuthClient,
     sendUpdates: "all",
     requestBody: {
@@ -88,6 +89,14 @@ export async function createCalendarEvent({
         dateTime: addMinutes(startTime, durationInMinutes).toISOString(),
       },
       summary: `${guestName} + ${calendarUser.fullName}: ${eventName}`,
+      conferenceData: {
+        createRequest: {
+          requestId: `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
+          conferenceSolutionKey: {
+            type: "hangoutsMeet"
+          }
+        }
+      },
     },
   });
 
