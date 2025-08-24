@@ -15,6 +15,12 @@ export async function getCalendarTimes(
   }
 ) {
   const oAuthClient = await getOAuthClient(clerkUserID);
+  // integrate multiple calendars with same user's google calendar account
+  // const calendarIDList = await google.calendar("v3").calendarList.list({
+  //   auth: oAuthClient,
+  // })
+  // console.log(calendarIDList.data);
+  
   const events = await google.calendar("v3").events.list({
     auth: oAuthClient,
     calendarId: "primary",
@@ -91,11 +97,13 @@ export async function createCalendarEvent({
       summary: `${guestName} + ${calendarUser.fullName}: ${eventName}`,
       conferenceData: {
         createRequest: {
-          requestId: `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
+          requestId: `${Date.now()}-${Math.random()
+            .toString(36)
+            .substring(2, 11)}`,
           conferenceSolutionKey: {
-            type: "hangoutsMeet"
-          }
-        }
+            type: "hangoutsMeet",
+          },
+        },
       },
     },
   });

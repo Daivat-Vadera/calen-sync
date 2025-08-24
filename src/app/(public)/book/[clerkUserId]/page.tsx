@@ -4,7 +4,14 @@ import { clerkClient } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 
 export const revalidate = 0;
-
+type EventType = {
+  id: string;
+  isActive: boolean;
+  name: string;
+  description: string | null;
+  durationInMinutes: number;
+  clerkUserId: string;
+};
 const BookingPage = async (
   props: {
     params: Promise<{ clerkUserId: string }>;
@@ -40,7 +47,7 @@ const BookingPage = async (
         event to my calendar.
       </div>
       <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
-        {events.map((event) => (
+        {events.map((event: EventType) => (
           <EventCard key={event.id} {...event} isItUsedOnBookingPage={true} />
         ))}
       </div>

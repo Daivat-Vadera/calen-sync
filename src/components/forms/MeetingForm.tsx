@@ -14,7 +14,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Textarea } from "../ui/textarea";
-import { useMemo, useTransition } from "react";
+import { useMemo } from "react";
 import { meetingFormSchema } from "@/schema/meetings";
 import {
   Select,
@@ -44,7 +44,6 @@ const MeetingForm = ({
   eventId: string;
   clerkUserId: string;
 }) => {
-  const [isDeletePending, startDeleteTransition] = useTransition();
   const form = useForm<z.infer<typeof meetingFormSchema>>({
     resolver: zodResolver(meetingFormSchema),
     defaultValues: {

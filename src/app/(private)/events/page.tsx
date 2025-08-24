@@ -1,13 +1,19 @@
 import EventCard from "@/components/EventCard";
 import { Button } from "@/components/ui/button";
-import { generateGoogleCalendarLink } from "@/emailTemplates/InviteeConfirmationEmail";
 import { db } from "@/lib/db";
-import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { CalendarPlus, CalendarRange } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 export const revalidate = 0;
+type EventType = {
+  id: string;
+  isActive: boolean;
+  name: string;
+  description: string | null;
+  durationInMinutes: number;
+  clerkUserId: string;
+};
 async function Page() {
   const { userId, redirectToSignIn } = await auth();
   if (userId == null) return redirectToSignIn();
@@ -34,7 +40,7 @@ async function Page() {
       </div>
       {events.length > 0 ? (
         <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(400px,1fr))]">
-          {events.map((event) => (
+          {events.map((event: EventType) => (
             <EventCard key={event.id} {...event} isItUsedOnBookingPage={false} />
           ))}
         </div>

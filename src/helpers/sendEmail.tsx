@@ -2,7 +2,6 @@ import nodemailer from "nodemailer";
 import { render } from "@react-email/render";
 import { UserConfirmationEmail } from "@/emailTemplates/UserConfirmationEmail";
 import { InviteeConfirmationEmail } from "@/emailTemplates/InviteeConfirmationEmail";
-import { sub } from "date-fns";
 
 interface sendEmailProps {
   email: string | undefined;
@@ -57,7 +56,7 @@ const userEmailHtml = await render(
     />
   );
 
-  var transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
     auth: {
@@ -84,8 +83,8 @@ const userEmailHtml = await render(
       success: true,
       message:  "Email send Successfully",
     };
-  } catch (error: any) {
-    console.log("Error Sending  Email");
+  } catch (error: unknown) {
+    console.log("Error Sending  Email", error);
     return {
       success: false,
       message: "Failed to send  Email",
