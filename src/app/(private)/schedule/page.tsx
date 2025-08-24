@@ -9,7 +9,7 @@ const SchedulePage = async () => {
   const { userId, redirectToSignIn } = await auth();
   if (userId == null) return redirectToSignIn();
 
-  let schedule = await db.schedule.findFirst({
+  const schedule = await db.schedule.findFirst({
     where: {
       clerkUserId: userId,
     },

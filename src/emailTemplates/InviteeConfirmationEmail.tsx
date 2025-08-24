@@ -31,10 +31,10 @@ export const InviteeConfirmationEmail = ({
 }) => (
   <Html>
     <Head />
-    <Preview>{`You're invited to ${eventTitle}`}</Preview>
+    <Preview>{`You are invited to ${eventTitle}`}</Preview>
     <Body style={styles.body}>
       <Container style={styles.container}>
-        <Heading style={styles.header}>You're Invited!</Heading>
+        <Heading style={styles.header}>Your are Invited!</Heading>
         <Text style={styles.greeting}>Hi {inviteeName},</Text>
         <Text>
           You have been invited to attend <strong>{eventTitle}</strong> hosted

@@ -1,0 +1,47 @@
+{
+    "kind": "calendar#event",
+    "etag": "3465907985614000",
+    "id": "ditch97fgcq06mv723fqlttkl8",
+    "status": "confirmed",
+    htmlLink: 'https://www.google.com/calendar/event?eid=ZGl0Y2g5N2ZnY3EwNm12NzIzZnFsdHRrbDggZGFpdmF0dmFkZXJhMThAbQ',
+    created: '2024-11-30T08:06:32.000Z',
+    updated: '2024-11-30T08:06:32.807Z',
+    summary: 'Test  + Daivat Vadera: Daivat Vadera Updated',
+    description: 'Additional Details: Test Notes ',
+    creator: { email: 'daivatvadera18@gmail.com', self: true },
+    organizer: { email: 'daivatvadera18@gmail.com', self: true },
+    start: { dateTime: '2024-12-02T09:30:00+05:30', timeZone: 'Asia/Kolkata' },
+    end: { dateTime: '2024-12-02T10:30:00+05:30', timeZone: 'Asia/Kolkata' },
+    iCalUID: 'ditch97fgcq06mv723fqlttkl8@google.com',
+    sequence: 0,
+    attendees: [
+      {
+        email: 'test@test.com',
+        displayName: 'Test ',
+        responseStatus: 'needsAction'
+      },
+      {
+        email: 'daivatvadera18@gmail.com',
+        organizer: true,
+        self: true,
+        responseStatus: 'accepted'
+      }
+    ],
+    hangoutLink: 'https://meet.google.com/xvc-zezj-mdf',
+    conferenceData: {
+      createRequest: {
+        requestId: '1732953975440-4p05qwj68',
+        conferenceSolutionKey: [Object],
+        status: [Object]
+      },
+      entryPoints: [ [Object] ],
+      conferenceSolution: {
+        key: [Object],
+        name: 'Google Meet',
+        iconUri: 'https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png'
+      },
+      conferenceId: 'xvc-zezj-mdf'
+    },
+    reminders: { useDefault: true },
+    eventType: 'default'
+  }

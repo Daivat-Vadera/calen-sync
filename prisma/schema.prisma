@@ -35,25 +35,22 @@ model Schedule {
   updatedAt      DateTime               @updatedAt
   availabilities ScheduleAvailability[]
 }
-
+enum DayOfWeek {
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+  sunday
+}
 // Define the ScheduleAvailability model
 model ScheduleAvailability {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   scheduleId String   @db.ObjectId
   startTime  String
   endTime    String
-  dayOfWeek  String
+  dayOfWeek  DayOfWeek
   Schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
 }
 
-// Custom Enum replacement for dayOfWeek
-// Add validation for `dayOfWeek` field to restrict values to days of the week
-enum DayOfWeek {
-  SUNDAY
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-}
